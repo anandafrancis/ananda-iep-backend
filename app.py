@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/upload": {"origins": "http://localhost:3000"}})
 
 # Initialize OpenAI
-openai = OpenAI(api_key='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')
+openai = OpenAI(api_key=os.getenv("OPENAI_KEY"))
 
 @app.route('/upload', methods=['POST'])
 @cross_origin()

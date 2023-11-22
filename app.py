@@ -4,12 +4,16 @@ from werkzeug.utils import secure_filename
 import fitz
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load variables from .env file
 
 app = Flask(__name__)
 CORS(app, resources={r"/upload": {"origins": "http://localhost:3000"}})
 
 # Initialize OpenAI
-openai = OpenAI(api_key=os.getenv("OPENAI_KEY"))
+openai_api_key = os.getenv("OPENAI_API_KEY")
+openai = OpenAI(api_key=openai_api_key)
 
 @app.route('/upload', methods=['POST'])
 @cross_origin()
@@ -30,7 +34,7 @@ def upload_file():
         convert_to_text(file_path)
 
         # Perform Step 3A: Upload text file to OpenAI API
-        assistant = IEPAssistant(api_key=os.getenv("OPENAI_KEY"), language='English')
+        assistant = IEPAssistant(api_key=openai_api_key, language='English')
         assistant.upload_file(file_path)
         response = assistant.create_message(message='What does my child struggle with in school')
 

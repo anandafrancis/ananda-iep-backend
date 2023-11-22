@@ -30,7 +30,7 @@ def upload_file():
         convert_to_text(file_path)
 
         # Perform Step 3A: Upload text file to OpenAI API
-        assistant = IEPAssistant(api_key='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', language='English')
+        assistant = IEPAssistant(api_key=os.getenv("OPENAI_KEY"), language='English')
         assistant.upload_file(file_path)
         response = assistant.create_message(message='What does my child struggle with in school')
 
